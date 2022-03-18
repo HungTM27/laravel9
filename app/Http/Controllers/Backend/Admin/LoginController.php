@@ -23,7 +23,7 @@ class LoginController extends Controller
             $use = User::where('email', $username)->first();
             // nếu mà đúng tài khoản xác thực thì thực hiện login và đăng nhập còn nếu sai thì sẽ false
                 Auth::login($use);
-                return redirect()->route('welcome');
+                return redirect()->route('dashboard');
         }
         return redirect('login');
     }
