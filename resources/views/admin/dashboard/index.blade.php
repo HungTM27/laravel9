@@ -1,5 +1,4 @@
 @extends('admin.layouts.main')
-
 @section('content')
             <section class="content-header">
                 <h1>
@@ -26,7 +25,6 @@
                         </div>
 
                     </div>
-
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
@@ -38,8 +36,6 @@
                         </div>
 
                     </div>
-
-
                     <div class="clearfix visible-sm-block"></div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="info-box">

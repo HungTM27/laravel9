@@ -24,11 +24,6 @@ Route::get('fake-user', function () {
         $user->role = 2;
         $user->save();
 });
-Route::group(['middleware' => 'auth'], function() {
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('welcome');
-});
 Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::post('Logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('Logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('login', [LoginController::class, 'index'])->name('login.index');
