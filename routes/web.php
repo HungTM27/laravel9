@@ -26,5 +26,5 @@ Route::get('fake-user', function () {
 });
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('Logout', [LoginController::class, 'logout'])->name('logout');
-Route::post('Logout', [LoginController::class, 'logout'])->name('logout');
+// Route::post('Logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('login', [LoginController::class, 'index'])->name('login.index');

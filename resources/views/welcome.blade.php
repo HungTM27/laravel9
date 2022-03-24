@@ -18,10 +18,7 @@
             {{ Auth::user()->name }}
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-dropdown-item" type="button">Log</button>
-            </form>
+            <a href="{{route('logout')}}" class="btn btn-default btn-flat">Sign out</a>
         </div>
     </div>
     @endif

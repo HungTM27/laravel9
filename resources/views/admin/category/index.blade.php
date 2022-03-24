@@ -5,6 +5,21 @@
     <div class="box-header">
         <h3 class="box-title">Danh sách danh mục</h3>
     </div>
+    <section class="sidebar">
+        <!-- search form -->
+        <div class="col-md-4">
+            <form action="" method="GET" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-flat"><i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <!-- /.search form -->
+    </section>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
         Open Categories
     </button>
@@ -67,6 +82,7 @@
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Submit</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
                         </div>
                     </form>
                 </div>
@@ -85,11 +101,10 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="{{ route('categories.update', $p->id) }}" method="POST">
+                    <form action="" method="POST">
                         @csrf
                         <label for="">Name</label>
-                        <input type="text" name="name" placeholder="Name..." class="form-control"
-                            value="{{old('name', $p->name)}}"> <br>
+                        <input type="text" name="name" placeholder="Name..." class="form-control" value=""> <br>
                         <label for="cars">Active:</label>
                         <select name="active" class="form-control">
                             @foreach(config('common.ACTIVE') as $key => $value)
@@ -121,40 +136,45 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
         $(function() {
-                $('.toggle-class').change(function() {
+            $('.toggle-class').change(function() {
                 var active = $(this).prop('checked') == true ? 1 : 0;
                 var id = $(this).data('id');
                 $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '/categories/store',
-                    data: {'active': active, 'id': id},
-                    success: function(data){
-                    console.log(data.success)
-                 }
-              });
-           })
+                    type: "GET"
+                    , dataType: "json"
+                    , url: '/categories/store'
+                    , data: {
+                        'active': active
+                        , 'id': id
+                    }
+                    , success: function(data) {
+                        console.log(data.success)
+                    }
+                });
+            })
         });
+
     </script>
     <script>
-        $(document).ready(function(){
-	    $('.btn-remove').on('click', function(){
-		   Swal.fire({
-			  title: 'Cảnh báo!',
-			  text: "Bạn chắc chắn muốn xóa danh mục này?",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  confirmButtonText: 'Đồng ý!'
-		   }).then((result) => {
-			  if (result.value) {
-				 var url = $(this).attr('href');
-				 window.location.href = url;
-			  }
-		   })
-		   return false;
-	    });
-	});
+        $(document).ready(function() {
+            $('.btn-remove').on('click', function() {
+                Swal.fire({
+                    title: 'Cảnh báo!'
+                    text: "Bạn chắc chắn muốn xóa danh mục này?"
+                    icon: 'warning'
+                    showCancelButton: true
+                    confirmButtonColor: '#3085d6'
+                    cancelButtonColor: '#d33'
+                    confirmButtonText: 'Đồng ý!'
+                }).then((result) => {
+                    if (result.value) {
+                        var url = $(this).attr('href');
+                        window.location.href = url;
+                    }
+                })
+                return false;
+            });
+        });
+
     </script>
     @endsection

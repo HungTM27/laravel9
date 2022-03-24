@@ -8,9 +8,9 @@ use App\Models\Category;
 use App\Http\Requests\RequestCategoriesForm;
 class CategoryController extends Controller
 {
-    public function index(){
-        $cates = Category::OrderBy('name','desc')->paginate(5);
-       return view('admin.category.index',compact('cates'));
+    public function index(request $request){
+        $cates = Category::OrderBy('name','desc')->where('name','like', '%'.$request->search.'%')->paginate(5);
+          return view('admin.category.index',compact('cates'));
     }
     public function store(RequestCategoriesForm $request){
         $store = new Category();
@@ -33,6 +33,6 @@ class CategoryController extends Controller
         if(!$remove){
             return redirect()->route('categories.index')->with('remove', 'id không tồn tại');
         }
-           return redirect()->route('categories.index')->with('remove','Xoá sản phẩm thành công');
+             return redirect()->route('categories.index')->with('remove','Xoá sản phẩm thành công');
     }
 }
