@@ -19,11 +19,12 @@ Route::get('/', function () {
 Route::get('fake-user', function () {
         $user = new App\Models\User;
         $user->name = 'Tran Manh Hung';
-        $user->email = 'hungtm199@topcv.vn';
+        $user->email = 'hungtm@topcv.vn';
         $user->password = bcrypt(123456789);
-        $user->role = 2;
+        $user->role = 1;
         $user->save();
 });
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('Logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('Logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('login', [LoginController::class, 'index'])->name('login.index');

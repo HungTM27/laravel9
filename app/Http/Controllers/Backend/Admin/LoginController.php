@@ -28,7 +28,7 @@ class LoginController extends Controller
         return redirect('login');
     }
     public function register(){
-
+        return view('admin.register');
     }
     public function logout() {
         Auth::logout();
