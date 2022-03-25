@@ -11,6 +11,8 @@
 </head>
 
 <body>
+
+    {{-- check xem tai khoan dang nhap co ton tai hay khong neu co hien thi ten nguoi dung con khong thi ve login --}}
     @if (Auth::check())
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"

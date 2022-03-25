@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\LoginController;
+use App\Http\Controllers\FontEnd\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +15,9 @@ use App\Http\Controllers\Backend\Admin\LoginController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
 Route::get('fake-user', function () {
         $user = new App\Models\User;
         $user->name = 'hung';
@@ -28,3 +30,4 @@ Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('Logout', [LoginController::class, 'logout'])->name('logout');
 // Route::post('Logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('login', [LoginController::class, 'index'])->name('login.index');
+Route::get('/', [HomeController::class, 'index'])->name('welcome');
