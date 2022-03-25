@@ -15,9 +15,6 @@ use App\Http\Controllers\FontEnd\HomeController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
 Route::get('fake-user', function () {
         $user = new App\Models\User;
         $user->name = 'hung';

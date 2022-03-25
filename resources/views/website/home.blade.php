@@ -63,6 +63,26 @@
                     <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
                     <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Login</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{{ route('login') }}">Đăng Nhập</a>
+                            <a class="dropdown-item" href="wishlist.html">Đăng Ký</a>
+                        </div>
+                    </li>
+
+                    @if(Auth::check())
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle ft-10" href="{{ route('login') }}" id="dropdown04"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Xin chào:{{
+                            Auth::user()->name
+                            }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{{ route('logout') }}">Đăng Xuất</a>
+                        </div>
+                    </li>
+                    @endif
                     <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span
                                 class="icon-shopping_cart"></span>[0]</a></li>
 
