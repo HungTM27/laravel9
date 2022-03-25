@@ -18,10 +18,10 @@ Route::get('/', function () {
 })->name('welcome');
 Route::get('fake-user', function () {
         $user = new App\Models\User;
-        $user->name = 'Tran Manh Hung';
-        $user->email = 'hungtm@topcv.vn';
+        $user->name = 'hung';
+        $user->email = 'hung199@topcv.vn';
         $user->password = bcrypt(123456789);
-        $user->role = 1;
+        $user->role = 2;
         $user->save();
 });
 Route::post('login', [LoginController::class, 'login'])->name('login');

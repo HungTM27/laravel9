@@ -25,7 +25,7 @@ class LoginController extends Controller
                 Auth::login($use);
                 return redirect()->route('dashboard');
         }
-        return redirect('login');
+        return redirect('login')->with('erorr','Tên tài khoản MK không chính xác');
     }
     public function register(){
         return view('admin.register');

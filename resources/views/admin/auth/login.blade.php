@@ -29,11 +29,15 @@
         </div>
 
         <div class="login-box-body">
+            @if(Session::has('erorr'))
+            <p class="text-danger text-center">{{ Session::get('erorr') }}</p>
+            @else
             <p class="login-box-msg">Sign in to start your session</p>
+            @endif
             <form action="{{route('login')}}" method="post">
                 @csrf
                 @foreach ($errors->all() as $error)
-                <div>{{$error}}</div>
+                <p class="text-danger">{{ $error}}</p>
                 @endforeach
                 <div class="form-group has-feedback">
                     <input type="email" class="form-control" name="username" placeholder="Email">
