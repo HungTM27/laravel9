@@ -25,7 +25,18 @@ class RequestLoginForm extends FormRequest
     {
         return [
             'username' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required|digits:8'
         ];
+    }
+    public function messages(){
+        return [
+            'username.required' => 'Vui lòng nhập tên',
+            'email.required' => 'Vui lòng nhập email',
+            'email.unique' => 'Tài khoản Email đã được đăng ký',
+            'password.required' => 'Vui lòng nhập mật khẩu',
+            'password.digits' => 'Mật khẩu phải trên 8 kí tự'
+        ];
+
     }
 }

@@ -27,9 +27,19 @@ class LoginController extends Controller
         }
         return redirect('login')->with('erorr','Tên tài khoản MK không chính xác');
     }
-    public function register(){
-        return view('admin.register');
+    public function store(){
+        return view('admin.auth.register');
     }
+    public function create(RequestLoginForm $request){
+       $register = new User();
+       $register->username = $request->input('username');
+       $register->email = $request->input('email');
+       $register->role = 2;
+       $register->password =bcrypt($request->password);
+        $register->save();
+        return redirect('login');
+    }
+
     public function logout() {
         Auth::logout();
         return redirect()->route('welcome');
