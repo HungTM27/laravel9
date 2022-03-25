@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 class ProductController extends Controller
 {
     /**
@@ -15,7 +16,8 @@ class ProductController extends Controller
     public function index()
     {
         $prods = Product::paginate(10);
-        return view('admin.products.index',compact('prods'));
+        $cates = Category::all();
+        return view('admin.products.index',compact('prods','cates'));
     }
 
     /**
@@ -25,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,7 +38,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $prods = new Product();
+        $prods->fill($request->all());
+         if($request->hasFile('file_upload')){
+            $newFileName = uniqid(). '-' . $request->file_upload->getClientOriginalName();
+            $path = $request->file_upload->storeAs('public/uploads/products', $newFileName);
+            $prods->image = str_replace('public/', '', $path);
+        }
+        $prods->save();
+         return redirect(route('products.index'));
+
     }
 
     /**
@@ -81,6 +92,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $remove = Product::destroy($id);
+        return redirect(route('products.index'));
+
     }
 }

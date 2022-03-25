@@ -1,10 +1,10 @@
 @extends('admin.layouts.main')
-@section('page-title','Danh Mục')
+@section('page-title','Products List')
 @section('content')
 <div class="box">
 
     <div class="box-header">
-        <h3 class="box-title">Danh sách danh mục</h3>
+        <h3 class="box-title">Danh sách Products</h3>
     </div>
     <section class="sidebar">
         <!-- search form -->
@@ -44,7 +44,7 @@
         @foreach ($prods as $c )
         <tbody>
             <tr>
-                <td>{{$loop->iteration}}</td>
+                <td>{{$loop->iteration + $prods->firstItem() - 1 }}</td>
                 <td>{{ $c->name }}</td>
                 <td>
                     <img src="{{asset('storage/' . $c->image)}}" width="70">
@@ -61,7 +61,8 @@
                 <td>{{$c->category->name}}</td>
                 <td>
                     <a href="" class="btn btn-green"><i class="fa fa-edit"></i></a>
-                    <a href="" class="btn btn-green"><i class="fa fa-trash"></i></a>
+                    <a href="{{ route('products.remove', $c->id) }}" class="btn btn-green"><i
+                            class="fa fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
@@ -73,12 +74,12 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Thêm Sản Phẩm</h4>
+                <h4 class="modal-title">Danh sách Sản Phẩm</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="">Tên sản phẩm</label>
@@ -93,8 +94,9 @@
                         <input type="text" name="price" class="form-control" value="{{old('price')}}">
                     </div>
                     <div class="form-group">
-                        <label for="">Số lượng</label>
-                        <input type="text" name="quantity" class="form-control" value="{{old('quantity')}}">
+                        <label for="text" class="col-lg-2 control-label">Mô Tả:</label>
+                        <textarea class="form-control" name="description" rows="8" maxlength="400" minlength="20"
+                            required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="">Mô Tả</label>
@@ -103,10 +105,18 @@
                     <div class="form-group">
                         <label for="">Danh mục</label>
                         <select name="cate_id" class="form-control">
-                            {{-- @foreach($cates as $c)
+                            @foreach($cates as $c)
                             <option @if($c->id == old('cate_id')) selected @endif
                                 value="{{$c->id}}">{{$c->name}}</option>
-                            @endforeach --}}
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Trạng Thái</label>
+                        <select name="status" class="form-control">
+                            @foreach(config('common.ACTIVE') as $key => $value)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="modal-footer">
@@ -120,6 +130,13 @@
     </div>
     <!-- Modal footer -->
 </div>
-</div>
-</div>
+<nav aria-label="Page navigation example">
+    {{$prods->appends(request()->query())->links() }}
+</nav>
+<script>
+    $(document).on('click', '#modal-default', function(){
+    $('#modal-default').modal('show');
+CKEDITOR.replace('editor1');
+});
+</script>
 @endsection
