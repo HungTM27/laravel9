@@ -20,7 +20,7 @@
         </div>
         <!-- /.search form -->
     </section>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
         Open Categories
     </button>
     <table class="table table-striped">
@@ -83,37 +83,6 @@
                             <button type="submit" class="btn btn-success">Submit</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 
-                        </div>
-                    </form>
-                </div>
-                <!-- Modal footer -->
-            </div>
-        </div>
-    </div>
-    {{-- categories update modals --}}
-    <div class="modal" id="myUpdate">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Sửa Danh Mục</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form action="" method="POST">
-                        @csrf
-                        <label for="">Name</label>
-                        <input type="text" name="name" placeholder="Name..." class="form-control" value=""> <br>
-                        <label for="cars">Active:</label>
-                        <select name="active" class="form-control">
-                            @foreach(config('common.ACTIVE') as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
-                        </select>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </form>
                 </div>
