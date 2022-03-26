@@ -60,7 +60,7 @@
                 </td>
                 <td>{{$c->category->name}}</td>
                 <td>
-                    <button cate_id="{{ $c->id }}" class="btn-update btn btn-green">
+                    <button id="{{ $c->id }}" class="btn-update btn btn-green">
                         <i class="fa fa-edit"></i>
                     </button>
                     <a href="{{ route('products.remove', $c->id) }}" class="btn btn-green"><i
@@ -130,10 +130,11 @@
     </form>
 </div>
 <!-- Modal footer -->
+<div class="div-pagination">
+    <nav aria-label="Page navigation example">
+        {{$prods->appends(request()->query())->links() }}
+    </nav>
 </div>
-<nav aria-label="Page navigation example">
-    {{$prods->appends(request()->query())->links() }}
-</nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
     integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -144,26 +145,19 @@
         })
     });
     $('.btn-update').on('click', function(){
-        var cateId = $(this).attr('cate_id');
+        var id = $(this).attr('id');
         $.ajax({
         url: "{{ route('products.update') }}",
         method: 'POST',
         data:{
         "_token": "{{ csrf_token() }}",
-        id: cateId,
+        id: id,
         },
         dateType: 'JSON',
         success: function(rp){
-            $('#modal-default').modal('show');
-            $('#name').val(rp.name);
-            $('#file_upload').val(rp.file_upload);
-            $('#price').val(rp.price);
-            $('#quantity').val(rp.quantity);
-            $('#description').val(rp.description);
-
+            debugger;
         }
     });
-
     })
 </script>
 @endsection

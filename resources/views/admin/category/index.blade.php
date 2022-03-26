@@ -35,15 +35,17 @@
             <tr>
                 <td> {{$loop->iteration + $cates->firstItem() - 1 }}</td>
                 <td>{{ $p->name }}</td>
-                <td>@if ($p->active == 1)
+                {{-- <td>@if ($p->active == 1)
                     <p class="text-green">Active</p>
                     @else
                     <p class="text-black">Close</p>
                     @endif
-                </td>
-                {{-- <td> <input data-id="{{$p->id}}" class="toggle-class" type="checkbox" data-onstyle="success"
+                </td> --}}
+                <td>
+                    <input data-id="{{$p->id}}" class="toggle-class" type="checkbox" data-onstyle="success"
                         data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $p->active ?
-                    'checked' : '' }}></td> --}}
+                    'checked' : '' }}>
+                </td>
                 <td>
                     <button id="{{ $p->id }}" class="btn-update btn btn-green"><i class="fa fa-edit"></i></button>
                     <a href="{{ route('categories.destroy', $p->id) }}" class="btn btn-green btn-remove"><i
@@ -66,14 +68,13 @@
                 <div class="modal-body">
                     <form action="{{ route('categories.store') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="" id="id">
                         <label for="">Name</label>
                         <input type="text" name="name" id="name" placeholder="Name..." class="form-control"> <br>
                         @error('name')
                         <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <label for="active">Active:</label>
-                        <select name="active" class="form-control">
+                        <select id="active" name="active" class="form-control">
                             @foreach(config('common.ACTIVE') as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach
@@ -109,13 +110,13 @@
         $(document).ready(function() {
             $('.btn-remove').on('click', function() {
                 Swal.fire({
-                    title: 'Cảnh báo!'
-                    text: "Bạn chắc chắn muốn xóa danh mục này?"
-                    icon: 'warning'
-                    showCancelButton: true
-                    confirmButtonColor: '#3085d6'
-                    cancelButtonColor: '#d33'
-                    confirmButtonText: 'Đồng ý!'
+                    title: 'Cảnh báo!',
+                    text: 'Bạn chắc chắn muốn xóa danh mục này',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý!',
                 }).then((result) => {
                     if (result.value) {
                         var url = $(this).attr('href');
@@ -132,20 +133,19 @@
                 $('#myModal').modal('show');
             });
             $('.btn-update').on('click', function(){
-            var id = $(this).attr('id');
+                 var id = $(this).attr('id');
                 $.ajax({
                     url: "{{ route('categories.update') }}",
                     method: 'POST',
                     data:{
                         "_token": "{{ csrf_token() }}",
-                        id: id
+                        id: id,
                     },
                     dateType: 'JSON',
-                    success: function(rp){
+                    success: function(data){
                         $('#myModal').modal('show');
-                        $('#name').val(rp.name);
-                        $('select').val(rp.active);
-                        $('id').val(rp.id);
+                        $('#name').val(data.name);
+                        $('#active').val(data.active);
                     }
                 })
             })
