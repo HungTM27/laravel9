@@ -82,7 +82,7 @@
                     </li>
                     @endif
                     <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span
-                                class="icon-shopping_cart"></span>[0]</a></li>  
+                                class="icon-shopping_cart"></span>[0]</a></li>
                 </ul>
             </div>
         </div>

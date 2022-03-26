@@ -21,12 +21,9 @@ class CategoryController extends Controller
         $store->save();
         return redirect()->route('categories.index')->with('store', 'Thêm mới thành công');
     }
-    public function update($id){
-
-    }
-    public function UpdateStore($id, request $request){
-        $update = Category::find($id);
-        dd($update);
+    public function update(Request $request){
+        $cates = Category::find($request->input('id'));
+        return response()->json($cates);
     }
     public function destroy($id){
         $remove = Category::destroy($id);

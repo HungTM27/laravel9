@@ -23,7 +23,7 @@
     </section>
     <div class="div-container" style="float:right; padding-right:24px;">
         {{-- <a href="" class="btn btn-success"><i class="fa fa-plus"> Thêm Mới</i></a> --}}
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+        <button type="button" class="btn btn-default" data-toggle="modal" id="add-new" data-target="#modal-default">
             Open Add Products
         </button>
     </div>
@@ -60,7 +60,9 @@
                 </td>
                 <td>{{$c->category->name}}</td>
                 <td>
-                    <a href="" class="btn btn-green"><i class="fa fa-edit"></i></a>
+                    <button cate_id="{{ $c->id }}" class="btn-update btn btn-green">
+                        <i class="fa fa-edit"></i>
+                    </button>
                     <a href="{{ route('products.remove', $c->id) }}" class="btn btn-green"><i
                             class="fa fa-trash"></i></a>
                 </td>
@@ -75,7 +77,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Danh sách Sản Phẩm</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" id="add-new" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
@@ -83,60 +85,85 @@
                     @csrf
                     <div class="form-group">
                         <label for="">Tên sản phẩm</label>
-                        <input type="text" name="name" class="form-control" value="{{old('name')}}">
+                        <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
                     </div>
                     <div class="form-group">
                         <label for="">ảnh</label>
-                        <input type="file" name="file_upload" class="form-control">
+                        <input type="file" name="file_upload" id="file_upload" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="">Giá</label>
-                        <input type="text" name="price" class="form-control" value="{{old('price')}}">
+                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}">
                     </div>
-                    <div class="form-group">
-                        <label for="text" class="col-lg-2 control-label">Mô Tả:</label>
-                        <textarea class="form-control" name="description" rows="8" maxlength="400" minlength="20"
-                            required></textarea>
-                    </div>
+
                     <div class="form-group">
                         <label for="">Mô Tả</label>
-                        <input type="text" name="description" class="form-control" value="{{old('quantity')}}">
+                        <textarea name="description" id="description" class="form-control" cols="30"
+                            rows="10"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="">Danh mục</label>
-                        <select name="cate_id" class="form-control">
-                            @foreach($cates as $c)
-                            <option @if($c->id == old('cate_id')) selected @endif
-                                value="{{$c->id}}">{{$c->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Trạng Thái</label>
-                        <select name="status" class="form-control">
-                            @foreach(config('common.ACTIVE') as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+            <div class="form-group">
+                <label for="">Danh mục</label>
+                <select name="cate_id" id="cate_id" class="form-control">
+                    @foreach($cates as $c)
+                    <option @if($c->id == old('cate_id')) selected @endif
+                        value="{{$c->id}}">{{$c->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Trạng Thái</label>
+                <select name="status" id="status" class="form-control">
+                    @foreach(config('common.ACTIVE') as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 
-                    </div>
             </div>
         </div>
-        </form>
     </div>
-    <!-- Modal footer -->
+    </form>
+</div>
+<!-- Modal footer -->
 </div>
 <nav aria-label="Page navigation example">
     {{$prods->appends(request()->query())->links() }}
 </nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+    integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    $(document).on('click', '#modal-default', function(){
-    $('#modal-default').modal('show');
-CKEDITOR.replace('editor1');
-});
+    $(document).ready(function(){
+        $('#add-new').on('click', function(){
+            $('#modal-default').modal('show');
+        })
+    });
+    $('.btn-update').on('click', function(){
+        var cateId = $(this).attr('cate_id');
+        $.ajax({
+        url: "{{ route('products.update') }}",
+        method: 'POST',
+        data:{
+        "_token": "{{ csrf_token() }}",
+        id: cateId,
+        },
+        dateType: 'JSON',
+        success: function(rp){
+            $('#modal-default').modal('show');
+            $('#name').val(rp.name);
+            $('#file_upload').val(rp.file_upload);
+            $('#price').val(rp.price);
+            $('#quantity').val(rp.quantity);
+            $('#description').val(rp.description);
+
+        }
+    });
+
+    })
 </script>
 @endsection

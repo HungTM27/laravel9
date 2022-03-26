@@ -20,7 +20,7 @@
         </div>
         <!-- /.search form -->
     </section>
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+    <button type="button" class="btn btn-default" id="add-new" data-toggle="modal" data-target="#myModal">
         Open Categories
     </button>
     <table class="table table-striped">
@@ -35,19 +35,17 @@
             <tr>
                 <td> {{$loop->iteration + $cates->firstItem() - 1 }}</td>
                 <td>{{ $p->name }}</td>
-                {{-- <td>@if ($p->active == 1)
+                <td>@if ($p->active == 1)
                     <p class="text-green">Active</p>
                     @else
                     <p class="text-black">Close</p>
                     @endif
-                </td> --}}
-                <td> <input data-id="{{$p->id}}" class="toggle-class" type="checkbox" data-onstyle="success"
+                </td>
+                {{-- <td> <input data-id="{{$p->id}}" class="toggle-class" type="checkbox" data-onstyle="success"
                         data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $p->active ?
-                    'checked' : '' }}></td>
+                    'checked' : '' }}></td> --}}
                 <td>
-                    <a href="javascript:void(0){{route('categories.update',$p->id) }}" data-toggle="modal"
-                        data-target="#myUpdate" data-id="{{ $p->id }}" class="btn btn-sm btn-outline-danger"><i
-                            class="fa fa-edit"></i></a>
+                    <button id="{{ $p->id }}" class="btn-update btn btn-green"><i class="fa fa-edit"></i></button>
                     <a href="{{ route('categories.destroy', $p->id) }}" class="btn btn-green btn-remove"><i
                             class="fa fa-trash"></i></a>
                 </td>
@@ -68,8 +66,9 @@
                 <div class="modal-body">
                     <form action="{{ route('categories.store') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="id" value="" id="id">
                         <label for="">Name</label>
-                        <input type="text" name="name" placeholder="Name..." class="form-control"> <br>
+                        <input type="text" name="name" id="name" placeholder="Name..." class="form-control"> <br>
                         @error('name')
                         <p class="text-danger">{{ $message }}</p>
                         @enderror
@@ -103,27 +102,9 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var active = $(this).prop('checked') == true ? 1 : 0;
-                var id = $(this).data('id');
-                $.ajax({
-                    type: "GET"
-                    , dataType: "json"
-                    , url: '/categories/store'
-                    , data: {
-                        'active': active
-                        , 'id': id
-                    }
-                    , success: function(data) {
-                        console.log(data.success)
-                    }
-                });
-            })
-        });
-
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+        integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function() {
             $('.btn-remove').on('click', function() {
@@ -144,6 +125,30 @@
                 return false;
             });
         });
-
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#add-new').on('click', function(){
+                $('#myModal').modal('show');
+            });
+            $('.btn-update').on('click', function(){
+            var id = $(this).attr('id');
+                $.ajax({
+                    url: "{{ route('categories.update') }}",
+                    method: 'POST',
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        id: id
+                    },
+                    dateType: 'JSON',
+                    success: function(rp){
+                        $('#myModal').modal('show');
+                        $('#name').val(rp.name);
+                        $('select').val(rp.active);
+                        $('id').val(rp.id);
+                    }
+                })
+            })
+        });
     </script>
     @endsection
